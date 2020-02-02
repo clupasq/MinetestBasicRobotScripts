@@ -1,30 +1,26 @@
-pos = self.spawnpos()
 
-size = 15
-side = size * 2 + 1
-block = { name = "default:sandstone" }
--- block = { name = "air" }
+function pyramid(pos, size, material)
 
-y = pos.y
+    material = material or { name = "default:sandstone" }
+    side = size * 2 + 1
 
-for i = side, 1, -2 do
+    y = pos.y
 
-for j = 1, i do
-  minetest.set_node({x=pos.x - size, y=y, z=pos.z - size + j}, block)
-  minetest.set_node({x=pos.x + size, y=y, z=pos.z - size + j}, block)
+    for i = side, 1, -2 do
 
-  minetest.set_node({x=pos.x - size + j - 1, y=y, z=pos.z - size}, block)
-  minetest.set_node({x=pos.x - size + j - 1, y=y, z=pos.z + size + 1}, block)
+        for j = 1, i do
+            minetest.set_node({ x=pos.x - size, y=y, z=pos.z - size + j }, material)
+            minetest.set_node({ x=pos.x + size, y=y, z=pos.z - size + j }, material)
+            minetest.set_node({ x=pos.x - size + j - 1, y=y, z=pos.z - size }, material)
+            minetest.set_node({ x=pos.x - size + j - 1, y=y, z=pos.z + size + 1 }, material)
+        end
+
+        y = y + 1
+        size = size - 1
+    end
 end
 
-
-
-
-y = y + 1
-size = size - 1
-
-end
-
+pyramid(self.spawnpos(), 15)
 
 self.remove()
 
